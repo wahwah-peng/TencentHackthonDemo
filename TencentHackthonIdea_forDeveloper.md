@@ -1,4 +1,4 @@
-https://doc.weixin.qq.com/doc/w3_Aa4A3QZUAE0CNrxqTHQV5T12eQ4fJ?scode=AJEAIQdfAAoTMQt0pRAMkAwwYNACo
+[参赛指引](https://doc.weixin.qq.com/doc/w3_Aa4A3QZUAE0CNrxqTHQV5T12eQ4fJ?scode=AJEAIQdfAAoTMQt0pRAMkAwwYNACo)
 #### 工具使用流程：
  CodeBuddy写模块化代码->**GitHub**（CNB）存仓库->CloudStudio拉取仓库->写main.py对接，完善Readme.md->提交
 --- 
