@@ -113,6 +113,64 @@ AIInteraction {
   - token认证（JWT）
   - API 限制只访问本人数据
   - 只读模拟数据，合法安全
+---
+非常关键 👍，不然后续 API、模型、数据库对不上号会很乱。下面我帮你梳理一个 **统一字段命名规范对照表**（三层：**API 参数 → Pydantic/SQLModel 模型属性 → 数据库列名**）。
+
+---
+
+## 🌐 字段命名统一规范
+
+* **命名风格**：
+
+  * API 参数：`camelCase`（前端 JSON 常用）
+  * Python 模型：`snake_case`（符合 Python 习惯）
+  * 数据库列：`snake_case`（SQL 标准）
+
+---
+
+## 📑 对照表示例（以 `AIInteraction` 为核心）
+
+| 含义/业务字段     | API 参数 (camelCase) | Python 模型属性 (snake\_case) | 数据库列名 (snake\_case) | 备注                      |
+| ----------- | ------------------ | ------------------------- | ------------------- | ----------------------- |
+| 交互ID        | `interactionId`    | `interaction_id`          | `interaction_id`    | 主键 UUID/自增ID            |
+| 用户输入内容      | `content`          | `content`                 | `content`           | 原始文本                    |
+| 摘要          | `summary`          | `summary`                 | `summary`           | AI提取结果                  |
+| 标签列表        | `tags`             | `tags`                    | `tags`              | 可存储为 JSON/数组            |
+| 向量Embedding | `embedding`        | `embedding`               | `embedding`         | 一般存储为 `VECTOR` 类型或 JSON |
+| 创建时间        | `createdAt`        | `created_at`              | `created_at`        | 默认 `NOW()`              |
+| 更新时间        | `updatedAt`        | `updated_at`              | `updated_at`        | 可选，方便追踪                 |
+
+---
+
+## 📌 规范总结
+
+1. **前端/接口层（API 参数）**
+
+   * `camelCase`，符合前端 JSON/JS 常见风格
+   * 例：`interactionId`, `createdAt`
+
+2. **Python 代码层（模型属性）**
+
+   * `snake_case`，符合 Python 代码规范
+   * 使用 **Pydantic/SQLModel** 的 `Field(..., alias="xxx")` 来保证 API/DB 对齐
+
+3. **数据库层（列名）**
+
+   * `snake_case`，与 Python 模型保持一致
+   * 数据库永远用小写下划线，避免大小写问题
+
+---
+
+
+* **前端传 JSON** → `{"interactionId": "...", "content": "...", "createdAt": "..."}`
+* **后端模型属性** → `interaction_id`, `content`, `created_at`
+* **数据库列名** → `interaction_id`, `content`, `created_at`
+
+三层完全对齐。
+
+---
+
+要不要我帮你直接输出一个完整的 **`models.py`（带 alias 映射 + 数据库定义）**，这样你可以直接拿去用？
 
 
 
