@@ -1,3 +1,6 @@
+--pycache--/
+*.pyc
+
 # Logs
 logs
 *.log
